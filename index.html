@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>College Notifier</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h2>College Notifier</h2>
+    <label>Enter SRN or Admin ID</label>
+    <input type="text" id="userId" placeholder="SRN123 or ADMIN001">
+    <button onclick="login()">Login</button>
+
+    <div id="adminPanel" class="hidden">
+      <h3>Post Notification</h3>
+      <input type="text" id="eventInput" placeholder="Enter event/holiday">
+      <button onclick="postEvent()">Post</button>
+    </div>
+
+    <div id="studentPanel" class="hidden" style="color: red;">
+      <h3>Upcoming Notifications</h3>
+      <ul id="eventList"></ul>
+    </div>
+  </div>
+
+  <script>
+    const events = [];
+
+    function login() {
+      const id = document.getElementById("userId").value.trim();
+      if (id.toUpperCase().startsWith("ADMIN")) {
+        document.getElementById("adminPanel").classList.remove("hidden");
+        document.getElementById("studentPanel").classList.add("hidden");
+      } else if (id.toUpperCase().startsWith("SRN")) {
+        document.getElementById("studentPanel").classList.remove("hidden");
+        document.getElementById("adminPanel").classList.add("hidden");
+        showEvents();
+      } else {
+        alert("Invalid ID! Use SRN123 or ADMIN001");
+      }
+    }
+
+    function postEvent() {
+      const event = document.getElementById("eventInput").value.trim();
+      if (event) {
+        events.push(event);
+        alert("Event added!");
+        document.getElementById("eventInput").value = "";
+      } else {
+        alert("Enter event name!");
+      }
+    }
+
+    function showEvents() {
+      const list = document.getElementById("eventList");
+      list.innerHTML = "";
+      events.forEach(e => {
+        const li = document.createElement("li");
+        li.textContent = e;
+        list.appendChild(li);
+      });
+    }
+  </script>
+</body>
+</html>
